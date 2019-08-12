@@ -18,6 +18,9 @@ const firebaseConfig = {
   messagingSenderId: '418051159130',
   appId: '1:418051159130:web:10b9d6fc51a0d24b'
 }
+
+console.ignoredYellowBox = ['Setting a timer']
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 

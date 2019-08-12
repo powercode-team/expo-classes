@@ -18,10 +18,11 @@ const styles = StyleSheet.create({
   }
 })
 
-const LessonCard = ({ lesson, onPress }) => (
+const LessonCard = ({ lesson, onPress, isExpanded }) => (
   <TouchableOpacity activeOpacity={0.8} style={styles.root} onPress={onPress}>
     <Text style={styles.category}>{lesson.category.toUpperCase()}</Text>
     <Text style={styles.title}>{lesson.title}</Text>
+    {isExpanded && <Text style={styles.location}>{lesson.location}</Text>}
   </TouchableOpacity>
 )
 

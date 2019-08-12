@@ -22,7 +22,7 @@ class LessonScreen extends Component {
     const { navigation } = this.props
     return (
       <View style={styles.root}>
-        <LessonCard lesson={navigation.getParam('lesson')} />
+        <LessonCard isExpanded lesson={navigation.getParam('lesson')} />
       </View>
     )
   }
