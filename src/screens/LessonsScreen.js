@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, FlatList, StyleSheet } from 'react-native'
 import LessonCard from '../components/LessonCard'
+import firebase from 'firebase'
 
 const styles = StyleSheet.create({
   root: {
@@ -8,22 +9,29 @@ const styles = StyleSheet.create({
   }
 })
 
-const lessons = [
-  {
-    id: 1,
-    category: 'boxing/kickboxing',
-    title: 'Kickboxing Workshop',
-    location: 'Stream boxing - 0.3km'
-  },
-  {
-    id: 2,
-    category: 'barre',
-    title: 'Barre with Jessica',
-    location: 'AERO Yoga - 0.3km'
-  }
-]
+const firebaseConfig = {
+  apiKey: 'AIzaSyAfe2h5y8mZMLOB_h1UPwcTwn1O4SRer8w',
+  authDomain: 'test-29923.firebaseapp.com',
+  databaseURL: 'https://test-29923.firebaseio.com',
+  projectId: 'test-29923',
+  storageBucket: '',
+  messagingSenderId: '418051159130',
+  appId: '1:418051159130:web:10b9d6fc51a0d24b'
+}
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig)
 
 class LessonsScreen extends Component {
+
+  state = {
+    lessons: []
+  }
+
+  componentDidMount() {
+    firebase.database().ref('lessons').on('value', (snapshot) => {
+      this.setState({ lessons: snapshot.val() })
+    })
+  }
 
   static navigationOptions = {
     title: 'Classes',
@@ -42,6 +50,7 @@ class LessonsScreen extends Component {
     />
 
   render() {
+    const { lessons } = this.state
     return (
       <View style={styles.root}>
         <FlatList
