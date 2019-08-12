@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, FlatList, StyleSheet } from 'react-native'
 import LessonCard from '../components/LessonCard'
 import firebase from 'firebase'
+import { connect } from 'react-redux'
 
 const styles = StyleSheet.create({
   root: {
@@ -26,13 +27,13 @@ firebase.initializeApp(firebaseConfig)
 
 class LessonsScreen extends Component {
 
-  state = {
-    lessons: []
-  }
-
   componentDidMount() {
+    const { dispatch } = this.props
     firebase.database().ref('lessons').on('value', (snapshot) => {
-      this.setState({ lessons: snapshot.val() })
+      dispatch({
+        type: 'LOAD_LESSONS',
+        payload: snapshot.val()
+      })
     })
   }
 
@@ -53,7 +54,8 @@ class LessonsScreen extends Component {
     />
 
   render() {
-    const { lessons } = this.state
+    const { lessons } = this.props
+
     return (
       <View style={styles.root}>
         <FlatList
@@ -66,4 +68,8 @@ class LessonsScreen extends Component {
   }
 }
 
-export default LessonsScreen
+const mapStateToProps = (state) => ({
+  lessons: state.lessons,
+})
+
+export default connect(mapStateToProps)(LessonsScreen)
